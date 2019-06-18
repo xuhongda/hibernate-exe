@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.xu.pojo.RcsRoleEntity" table="rcs_role" schema="self">
+        <id name="id" column="ID"/>
+        <property name="roleName" column="ROLE_NAME"/>
+        <property name="descri" column="DESCRI"/>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.xu.pojo.RcsUserEntity" table="rcs_user" schema="self">
+        <id name="id" column="id"/>
+        <property name="groupId" column="group_id"/>
+        <property name="loginId" column="login_id"/>
+        <property name="password" column="password"/>
+        <property name="name" column="name"/>
+        <property name="orgId" column="org_id"/>
+        <property name="ipRegex" column="ip_regex"/>
+        <property name="flag" column="flag"/>
+        <property name="mobile" column="mobile"/>
+    </class>
+</hibernate-mapping>

@@ -4,9 +4,13 @@
 
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.dialect">
-            org.hibernate.dialect.MySQLDialect
-        </property>
+
+        <!-- mysql 低版本才可用，否则建表报错-->
+       <!-- <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>-->
+
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL57Dialect</property>
+
+        <!--mysql 高版本数据库使用-->
         <property name="hibernate.connection.driver_class">
             com.mysql.jdbc.Driver
         </property>
@@ -25,7 +29,8 @@
         <property name="hibernate.current_session_context_class">thread</property>
 
         <!-- 可以将向数据库发送的sql显示出来 -->
-        <property name="hibernate.show_sql">true</property>
+        <!--有了 logback 日志配置-->
+        <property name="hibernate.show_sql">false</property>
         <!-- 格式化sql -->
         <property name="hibernate.format_sql">true</property>
 

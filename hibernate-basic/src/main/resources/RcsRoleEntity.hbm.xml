@@ -5,8 +5,9 @@
 <hibernate-mapping>
 
     <class name="com.xu.pojo.RcsRoleEntity" table="rcs_role" schema="self">
-        <id name="id" column="ID"/>
-        <property name="roleName" column="ROLE_NAME"/>
-        <property name="descri" column="DESCRI"/>
+        <id name="id" column="ID" type="int"/>
+        <property name="roleName" column="ROLE_NAME" length="17" type="java.lang.String"/>
+        <property name="descri" column="DESCRI" length="50" type="java.lang.String"/>
+        <property name="xx" column="XX" length="50" type="java.lang.String"/>
     </class>
 </hibernate-mapping>

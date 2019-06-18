@@ -25,7 +25,10 @@ public class RcsRoleEntityTest {
     private Transaction tx;
 
     static {
+        //加载核心配置文件，加载映射文件
         Configuration configuration = new Configuration().configure();
+        //手动加载映射
+       // configuration.addResource("");
         SessionFactory sessionFactory = configuration.buildSessionFactory();
         session = sessionFactory.getCurrentSession();
     }
@@ -50,7 +53,7 @@ public class RcsRoleEntityTest {
         try {
             // do some work
             Criteria criteria = session.createCriteria(RcsRoleEntity.class);
-            criteria.add(Expression.eq("id",1));
+            criteria.add(Expression.eq("id",7));
             Object o = criteria.setMaxResults(1).uniqueResult();
             log.info("o == {}",o instanceof RcsRoleEntity);
             tx.commit();

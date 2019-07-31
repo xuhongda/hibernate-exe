@@ -37,7 +37,6 @@
         <!--引用配置-->
         <appender-ref ref="INFO" />
         <level value="info"/>
-        <appender-ref ref="console"/>
     </logger>
 
     <!-- 日志级别 -->

@@ -118,11 +118,11 @@ public class RcsRoleEntityTest {
      *  from RcsRoleEntity 查询的实体类名称不是表名称
      */
     @Test
-    public void test003_1(){
+    public void test003_1() throws JsonProcessingException {
 
         Query query = session.createQuery("from RcsRoleEntity rcs where rcs.id = 1");
         RcsRoleEntity rcsRoleEntity = (RcsRoleEntity)query.uniqueResult();
-        log.info("rcs = {}",rcsRoleEntity);
+        log.info("rcs = {}",objectMapper.writeValueAsString(rcsRoleEntity));
         tx.commit();
         session.close();
     }

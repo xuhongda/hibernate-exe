@@ -11,9 +11,9 @@
     <!-- ch.qos.logback.core.rolling.RollingFileAppender 文件日志输出 -->
     <appender name="INFO"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/deviceStatus.log</file>
+        <file>logs/info.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/deviceStatus.%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <fileNamePattern>logs/info.%d{yyyy-MM-dd}-%i.log</fileNamePattern>
             <maxHistory>30</maxHistory>
             <timeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -24,6 +24,32 @@
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
+
+
+    <appender name="error"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/error.%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <MaxFileSize>50MB</MaxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+
+        <!--级别过滤器-->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
 
     <!--显示出 sql 参数 -->
     <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE"/>
@@ -36,14 +62,13 @@
     <logger name="com.xu" level="info">
         <!--引用配置-->
         <appender-ref ref="INFO" />
-        <level value="info"/>
+        <appender-ref ref="error" />
     </logger>
 
     <!-- 日志级别 -->
-    <root>
-        <level value="error" />
-        <level value="info" />
+    <root level = "info">
         <appender-ref ref="console" />
+        <appender-ref ref="error" />
     </root>
 
 </configuration>

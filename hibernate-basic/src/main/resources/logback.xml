@@ -62,7 +62,6 @@
     <logger name="com.xu" level="info">
         <!--引用配置-->
         <appender-ref ref="INFO" />
-        <appender-ref ref="error" />
     </logger>
 
     <!-- 日志级别 -->

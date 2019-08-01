@@ -222,16 +222,23 @@ public class RcsRoleEntityTest {
     /**
      *  保存或者更新
      *
-     * 有主键修改，无，更新
+     * 有主键,更新;无，save
      */
     @Test
     public void test006(){
 
-        RcsRoleEntity rcsRoleEntity = new RcsRoleEntity();
-        rcsRoleEntity.setId(0);
-        session.saveOrUpdate(rcsRoleEntity);
-        tx.commit();
-        session.close();
+        try{
+            RcsRoleEntity rcsRoleEntity = new RcsRoleEntity();
+            rcsRoleEntity.setRoleName("yy");
+            rcsRoleEntity.setId(33);
+            session.saveOrUpdate(rcsRoleEntity);
+            tx.commit();
+            session.close();
+        }catch (Exception e){
+            log.error("error = {}",e);
+        }
+
+
     }
 
 }

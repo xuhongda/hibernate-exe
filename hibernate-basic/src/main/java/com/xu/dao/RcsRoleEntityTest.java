@@ -12,7 +12,6 @@ import org.hibernate.query.Query;
 import org.hibernate.type.IntegerType;
 import org.hibernate.type.LongType;
 import org.hibernate.type.StringType;
-import org.hibernate.type.Type;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

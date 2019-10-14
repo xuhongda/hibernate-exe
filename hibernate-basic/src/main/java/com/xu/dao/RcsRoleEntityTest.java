@@ -196,10 +196,10 @@ public class RcsRoleEntityTest {
     public void test004(){
 
         RcsRoleEntity rcsRoleEntity = new RcsRoleEntity();
-        rcsRoleEntity.setId(0);
-        rcsRoleEntity.setRoleName("xx");
-        rcsRoleEntity.setDescri("yy");
-        rcsRoleEntity.setXx("xx");
+        rcsRoleEntity.setId(35);
+        rcsRoleEntity.setRoleName("tt");
+       /* rcsRoleEntity.setDescri("yy");
+        rcsRoleEntity.setXx("xx");*/
         session.update(rcsRoleEntity);
         tx.commit();
         session.close();
@@ -228,7 +228,7 @@ public class RcsRoleEntityTest {
 
         try{
             RcsRoleEntity rcsRoleEntity = new RcsRoleEntity();
-            rcsRoleEntity.setRoleName("yy");
+            rcsRoleEntity.setRoleName("zz");
             rcsRoleEntity.setId(33);
             session.saveOrUpdate(rcsRoleEntity);
             tx.commit();

@@ -17,7 +17,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author xuhongda on 2019/6/18
@@ -64,9 +66,9 @@ public class RcsRoleEntityTest {
         try {
             // do some work
             Criteria criteria = session.createCriteria(RcsRoleEntity.class);
-            criteria.add(Expression.eq("id",7));
-            Object o = criteria.setMaxResults(1).uniqueResult();
-            log.info("o == {}",o instanceof RcsRoleEntity);
+            criteria.add(Expression.eq("id",21));
+            RcsRoleEntity rcsRoleEntity = (RcsRoleEntity)criteria.setMaxResults(1).uniqueResult();
+            System.out.println(rcsRoleEntity);
             tx.commit();
         }
         catch (Exception e) {
@@ -86,11 +88,11 @@ public class RcsRoleEntityTest {
     public void test002(){
 
         RcsRoleEntity rcsRoleEntity = new RcsRoleEntity();
-        rcsRoleEntity.setRoleName("xx");
+        rcsRoleEntity.setRoleName("一二三");
         rcsRoleEntity.setDescri("xx");
         Serializable save = session.save(rcsRoleEntity);
         tx.commit();
-        log.info("save = {}",save);
+        log.info("save =",save);
     }
 
     /**
@@ -101,11 +103,11 @@ public class RcsRoleEntityTest {
 
         //立即发送 sql --- 空 -> null
         RcsRoleEntity rcsRoleEntity = session.get(RcsRoleEntity.class, 0);
-        log.info("save = {}",rcsRoleEntity);
+        log.info("save =",rcsRoleEntity);
 
         // 延迟 代理 --- 返回空 抛异常
         RcsRoleEntity rcsRoleEntity2 = session.load(RcsRoleEntity.class, 0);
-        log.info("save = {}",rcsRoleEntity2);
+        log.info("save =",rcsRoleEntity2);
 
         tx.commit();
         session.close();
@@ -121,7 +123,7 @@ public class RcsRoleEntityTest {
 
         Query query = session.createQuery("from RcsRoleEntity rcs where rcs.id = 1");
         RcsRoleEntity rcsRoleEntity = (RcsRoleEntity)query.uniqueResult();
-        log.info("rcs = {}",objectMapper.writeValueAsString(rcsRoleEntity));
+        log.info("rcs =",objectMapper.writeValueAsString(rcsRoleEntity));
         tx.commit();
         session.close();
     }
@@ -134,10 +136,13 @@ public class RcsRoleEntityTest {
     @Test
     public void test003_2(){
 
-        NativeQuery sqlQuery = session.createSQLQuery("select * from rcs_role rcs where rcs.id = 1");
-        NativeQuery nativeQuery = sqlQuery.addEntity(RcsRoleEntity.class);
-        RcsRoleEntity rcsRoleEntity = (RcsRoleEntity)nativeQuery.uniqueResult();
-        log.info("rcs = {}",rcsRoleEntity);
+        NativeQuery sqlQuery = session.createSQLQuery("select rcs.id,rcs.role_name from rcs_role rcs where rcs.id = 1");
+       /* NativeQuery nativeQuery = sqlQuery.addEntity(RcsRoleEntity.class);
+        RcsRoleEntity rcsRoleEntity = (RcsRoleEntity)nativeQuery.uniqueResult();*/
+        Object[] objects = (Object[])sqlQuery.uniqueResult();
+
+
+        log.info("rcs =",objects[1]);
         tx.commit();
         session.close();
     }
@@ -154,7 +159,7 @@ public class RcsRoleEntityTest {
 
         NativeQuery sqlQuery = session.createSQLQuery("select role.ROLE_NAME,power.POWER_ID,power.ID from rcs_role role left join rcs_role_power power on role.ID = power.ROLE_ID where role.id = 1");
         List list = sqlQuery.addScalar("POWER_ID", LongType.INSTANCE).addScalar("ROLE_NAME", StringType.INSTANCE).list();
-        log.info("list = {}",objectMapper.writeValueAsString(list));
+        log.info("list =",objectMapper.writeValueAsString(list));
         tx.commit();
         session.close();
     }
@@ -169,7 +174,7 @@ public class RcsRoleEntityTest {
 
         NativeQuery sqlQuery = session.createSQLQuery("select role.ROLE_NAME,power.POWER_ID,power.ID from rcs_role role left join rcs_role_power power on role.ID = power.ROLE_ID where role.id = ?");
         List list = sqlQuery.addScalar("POWER_ID", LongType.INSTANCE).addScalar("ROLE_NAME", StringType.INSTANCE).setParameter(1,1).list();
-        log.info("list = {}",objectMapper.writeValueAsString(list));
+        log.info("list =",objectMapper.writeValueAsString(list));
         tx.commit();
         session.close();
     }
@@ -183,7 +188,7 @@ public class RcsRoleEntityTest {
 
         NativeQuery sqlQuery = session.createSQLQuery("select role.ROLE_NAME,power.POWER_ID,power.ID from rcs_role role left join rcs_role_power power on role.ID = power.ROLE_ID where role.id = :id");
         List list = sqlQuery.addScalar("POWER_ID", LongType.INSTANCE).addScalar("ROLE_NAME", StringType.INSTANCE).setParameter("id",1, IntegerType.INSTANCE).list();
-        log.info("list = {}",objectMapper.writeValueAsString(list));
+        log.info("list =",objectMapper.writeValueAsString(list));
         tx.commit();
         session.close();
     }
@@ -198,8 +203,6 @@ public class RcsRoleEntityTest {
         RcsRoleEntity rcsRoleEntity = new RcsRoleEntity();
         rcsRoleEntity.setId(35);
         rcsRoleEntity.setRoleName("tt");
-       /* rcsRoleEntity.setDescri("yy");
-        rcsRoleEntity.setXx("xx");*/
         session.update(rcsRoleEntity);
         tx.commit();
         session.close();
@@ -234,10 +237,85 @@ public class RcsRoleEntityTest {
             tx.commit();
             session.close();
         }catch (Exception e){
-            log.error("error = {}",e);
+            log.error("error =",e);
         }
+    }
+
+    @Test
+    public void test007(){
+        try{
+            RcsRoleEntity rcsRoleEntity = new RcsRoleEntity();
+            rcsRoleEntity.setRoleName("zz");
+            rcsRoleEntity.setId(31);
+            rcsRoleEntity.setDescri("xcv");
+            session.update(rcsRoleEntity);
+            tx.commit();
+            session.close();
+        }catch (Exception e){
+            log.error("error = ",e);
+        }
+    }
+
+    @Test
+    public void test008(){
+        try{
+            String sql = "update rcs_role rcsRole set DESCRI=:cri where ROLE_NAME=:name";
+            int update = session.createSQLQuery(sql).setParameter("cri","uuu").setParameter("name","zz").executeUpdate();
+            System.out.println(update);
+            tx.commit();
+            session.close();
+        }catch (Exception e){
+            log.error("error =",e);
+        }
+    }
+
+    /**
+     * createQuery 面向对象
+     */
+    @Test
+    public void test008_1(){
+        try{
+            String sql = "update RcsRoleEntity rcsRole set rcsRole.descri=:cri where rcsRole.roleName=:name";
+            int update = session.createQuery(sql).setParameter("cri","uuu").setParameter("name","zz").executeUpdate();
+            System.out.println(update);
+            tx.commit();
+            session.close();
+        }catch (Exception e){
+            log.error("error =",e);
+        }
+    }
 
 
+    @Test
+    public void test009(){
+        try{
+            String sql = "select * from rcs_role rcsRole  where ROLE_NAME=:name";
+            List<Object> rcsRoleEntityList = (List)session.createSQLQuery(sql).addEntity(RcsRoleEntity.class).setParameter("name", "zz").list();
+            System.out.println(rcsRoleEntityList.size());
+            RcsRoleEntity rcsRoleEntity = (RcsRoleEntity)rcsRoleEntityList.get(0);
+            System.out.println(rcsRoleEntity.toString());
+            tx.commit();
+            session.close();
+        }catch (Exception e){
+            log.error("error",e);
+        }
+    }
+
+
+    @Test
+    public void test010(){
+        try{
+            String sql = "select rcsRole.DESCRI,rcsRole.ROLE_NAME from rcs_role rcsRole  where ROLE_NAME=:name";
+            Object[] objects= (Object[])session.createSQLQuery(sql).setParameter("name", "壹车族风控角色").uniqueResult();
+            System.out.println(objects[0]);
+            tx.commit();
+        }catch (Exception e){
+            log.error("error",e);
+        }finally {
+            System.out.println("finally");
+            session.close();
+        }
+        System.out.println("close");
     }
 
 }

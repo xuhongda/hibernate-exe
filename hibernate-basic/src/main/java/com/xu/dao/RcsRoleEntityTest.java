@@ -7,8 +7,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.SimpleExpression;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
+import org.hibernate.query.criteria.HibernateCriteriaBuilder;
 import org.hibernate.type.IntegerType;
 import org.hibernate.type.LongType;
 import org.hibernate.type.StringType;
@@ -16,10 +19,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author xuhongda on 2019/6/18
@@ -67,8 +71,30 @@ public class RcsRoleEntityTest {
             // do some work
             Criteria criteria = session.createCriteria(RcsRoleEntity.class);
             criteria.add(Expression.eq("id",21));
-            RcsRoleEntity rcsRoleEntity = (RcsRoleEntity)criteria.setMaxResults(1).uniqueResult();
+            RcsRoleEntity rcsRoleEntity = (RcsRoleEntity)criteria.uniqueResult();
             System.out.println(rcsRoleEntity);
+            tx.commit();
+        }
+        catch (Exception e) {
+            if (tx!=null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
+    }
+
+    @Test
+    public void test001_1(){
+
+        try {
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<RcsRoleEntity> query = criteriaBuilder.createQuery(RcsRoleEntity.class);
+            Root<RcsRoleEntity> from = query.from(RcsRoleEntity.class);
+            query.select(from);
+            List<RcsRoleEntity> resultList = session.createQuery(query).getResultList();
+            resultList.forEach(System.out::println);
             tx.commit();
         }
         catch (Exception e) {
